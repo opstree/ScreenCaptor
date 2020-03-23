@@ -12,10 +12,7 @@
 			"js": ["content.js"]
 		}
 	],
-	"browser_action": {
-		"default_icon": "camera.png",
-		"default_title": "Screenshot"
-	},
-	"permissions": ["tabs", "activeTab"],
+	"permissions": ["tabs", "webNavigation", "activeTab", "<all_urls>"],
 	"manifest_version": 2
 }
+
