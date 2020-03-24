@@ -24,7 +24,7 @@ A chrome extension to capture your all screen activities in form of screenshot a
 
 - Enabled the Developer mode in extensions.
 
-![](./static/settings.png)
+![](./static/developer.png)
 
 - After that click on **Load Unpacked** and upload the complete plugin directory.
 
