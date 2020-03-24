@@ -26,31 +26,35 @@ var screenshot = {
 	},
 	
 	initEvents : function() {
-		chrome.browserAction.onClicked.addListener(function(tab) {
-			chrome.tabs.captureVisibleTab(null, {
-				format : "png",
-				quality : 100
-			}, function(data) {
-				screenshot.data = data;
-				
-				// send an alert message to webpage
-				chrome.tabs.query({
-					active : true,
-					currentWindow : true
-				}, function(tabs) {
-					chrome.tabs.sendMessage(tabs[0].id, {ready : "ready"}, function(response) {
-						if (response.download === "download") {
-							screenshot.saveScreenshot();
-						}
-						else {
-							screenshot.data = '';
-						}
-					});
-				}); 
-
-			});
+		chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+            if(tab.status == "complete") {
+                chrome.tabs.captureVisibleTab(null, {
+                    format : "png",
+                    quality : 100
+                }, function(data) {
+                    screenshot.data = data;
+                    
+                    // send an alert message to webpage
+                    chrome.tabs.query({
+                        active : true,
+                        currentWindow : true
+                    }, function(tabs) {
+                        chrome.tabs.sendMessage(tabs[0].id, {ready : "ready"}, function(response) {
+                            console.log(response)
+                            if (response != "download") {
+                                screenshot.saveScreenshot();
+                            }
+                            else {
+                                screenshot.data = '';
+                            }
+                        });
+                    }); 
+    
+                });
+            }
 		});
 	}
 };
 
 screenshot.init();
+
